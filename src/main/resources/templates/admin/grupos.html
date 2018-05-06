@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Grupos</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="container">
+	 	
+       <div th:fragment="navbar" class="navbar navbar-inverse" role="navigation">
+			<ul class="nav nav-tabs" >
+		        <li class="nav-item" th:each="group, barStat: ${groups}">
+		        	<a href="#"> <span th:utext="${group.nameGroup}"></span></a>
+		           		<div class="panel-group" >
+							<div class="panel panel-primary"> 
+							<div class="table-responsive"> 
+								<table class="table">
+						 			 <tr th:each="match : ${group.matches}">
+						    			<td  th:text="${match.home_equipo.name}" align="left"></td>
+						    			<td><img th:src="${match.home_equipo.flag}" style="width:20px;height:20px"/></td>
+						    			<td><input type="text" maxlength="2" style="width:20px;height:20px"/></td>
+						    			<td><input type="text" maxlength="2"  style="width:20px;height:20px"/></td>
+						    			<td><img th:src="${match.away_equipo.flag}" style="width:20px;height:20px"/></td>
+						     			<td th:text="${match.away_equipo.name}" align="left"></td>
+						     			 <td th:text="${match.date}" align="left"></td>
+    
+						  			</tr>
+						 		 </table>
+						 	</div>
+							</div>
+			 			</div>
+		     	 </li>
+	    	</ul>
+   		 </div>
+ 
+    </div>
+</body>
+</html>
