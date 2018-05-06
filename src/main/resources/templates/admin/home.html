@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Admin Page</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="container">
+	 	<div align="right" >
+			<form th:action="@{/logout}" method="get">
+				<button class="btn btn-md btn-danger"  name="registration"
+					type="Submit">Logout</button>
+			</form>  
+			<form th:action="@{/staduims}" method="get">
+					<button class="btn btn-md btn-warning " type="Submit">Lista de Estadios</button>
+			</form>	 
+		</div> 
+		<div class="panel-group" style="margin-top:40px">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<span th:utext="${userName}"></span>
+				</div>
+				<div class="panel-body">
+					<img th:src="@{/images/logoMundial.jpg}" class="img-responsive center-block" width="200" height="200" alt="World Cup 2018" /> 
+				</div>
+				<!-- <p class="admin-message-text text-center" th:utext="${adminMessage}"></p> -->
+			</div>
+		</div>
+		
+
+		<div th:fragment="navbar" class="navbar navbar-inverse" role="navigation">
+			<ul class="nav nav-tabs" >
+		        <li class="nav-item" th:each="group, barStat: ${groups}">
+		        	<a href="#"> <span th:utext="${group.nameGroup}"></span></a>
+		           		<div class="panel-group" >
+							<div class="panel panel-primary"> 
+							<div class="table-responsive"> 
+								<table class="table">
+						 			 <tr th:each="match : ${group.matches}">
+						    			<td  th:text="${match.home_equipo.name}" align="left"></td>
+						    			<td><img th:src="${match.home_equipo.flag}" style="width:20px;height:20px"/></td>
+						    			<td><input type="text" maxlength="2" style="width:20px;height:20px"/></td>
+						    			<td><input type="text" maxlength="2"  style="width:20px;height:20px"/></td>
+						    			<td><img th:src="${match.away_equipo.flag}" style="width:20px;height:20px"/></td>
+						     			<td th:text="${match.away_equipo.name}" align="left"></td>
+						     			<!-- <td th:text="${match.date}" align="left"></td> -->
+    
+						  			</tr>
+						 		 </table>
+						 	</div>
+							</div>
+			 			</div>
+		     	 </li>
+	    	</ul>
+   		 </div>
+    
+    
+	<!-- 	
+		<div class="navbar navbar-inverse">
+		<div class="container">
+		 <div class="navbar-header">
+            <p class="navbar-brand">GRUPO A</p>
+          </div>
+	 	<div class="panel-group" style="margin-top:40px">
+			<div class="panel panel-primary"> 
+				<div class="table-responsive"> 
+					<span th:utext="${groups.A.matches}"></span>
+					<table class="table">
+					<tr>
+					 <td>Equipo Local </td>
+					 <td>Equipo Visitante</td>
+					 </tr>
+				  <tr th:each="match : ${groups.A.matches}">
+				 	<td><img th:src="${match.home_equipo.flag}" style="width:20px;height:20px"/></td>
+				    <td  th:text="${match.home_equipo.name}" align="left"></td>
+				    <td><img th:src="${match.away_equipo.flag}" style="width:20px;height:20px"/></td>
+				     <td th:text="${match.away_equipo.name}" align="left"></td>
+				  </tr>
+				  </table>
+				 </div>
+			</div>
+	 	</div>
+	 	</div>
+	 	</div>
+		 -->
+	</div>
+</body>
+</html>
