@@ -33,8 +33,42 @@
 			</div>
 		</div>
 		
+		
+<!-- 		<div th:fragment="navbar" class="navbar navbar-inverse" role="navigation">
+			<ul class="nav nav-tabs" >
+		        <li class="nav-item">
+		        	<a href="#"> <span >GRUPO A</span></a>
+		           		<div class="panel-group" >
+							<div class="panel panel-primary"> 
+							<div class="table-responsive"> 
+								<table class="table">
+						 			 <tr th:each="match : ${groups.A.matches}">
+						    			<td  th:text="${match.home_equipo.name}" align="left"></td>
+						    			<td><img th:src="${match.home_equipo.flag}" style="width:20px;height:20px"/></td>
+						    			<td><input type="text" maxlength="2" style="width:20px;height:20px"/></td>
+						    			<td><input type="text" maxlength="2"  style="width:20px;height:20px"/></td>
+						    			<td><img th:src="${match.away_equipo.flag}" style="width:20px;height:20px"/></td>
+						     			<td th:text="${match.away_equipo.name}" align="left"></td>
+						     			 <td th:text="${match.date}" align="left"></td>
+    
+						  			</tr>
+						 		 </table>
+						 	</div>
+							</div>
+			 			</div>
+		     	 </li>
+		     	 <li class="nav-item">
+		        	<form th:action="@{/getGroup}" method="get">
+					<button class="btn btn-md btn-danger"  name="groupMatch"
+						type="Submit">Grupo B</button>
+			</form>  
+		         </li>
+	    	</ul>
+   		 </div> -->
+   		 
+   		 
 
-		<div th:fragment="navbar" class="navbar navbar-inverse" role="navigation">
+		 <div th:fragment="navbar" class="navbar " role="navigation">
 			<ul class="nav nav-tabs" >
 		        <li class="nav-item" th:each="group, barStat: ${groups}">
 		        	<a href="#"> <span th:utext="${group.nameGroup}"></span></a>
@@ -49,7 +83,7 @@
 						    			<td><input type="text" maxlength="2"  style="width:20px;height:20px"/></td>
 						    			<td><img th:src="${match.away_equipo.flag}" style="width:20px;height:20px"/></td>
 						     			<td th:text="${match.away_equipo.name}" align="left"></td>
-						     			<!-- <td th:text="${match.date}" align="left"></td> -->
+						     			 <td th:text="${match.date}" align="left" bordercolor="3"></td>
     
 						  			</tr>
 						 		 </table>

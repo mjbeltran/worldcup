@@ -1,7 +1,10 @@
 package com.example.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -41,9 +44,9 @@ public class LoginController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	private List<Stadiums> listStadiums;
-	
+
 	private Users user;
 
 	@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
@@ -109,9 +112,9 @@ public class LoginController {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		WorldCupInfo value = mapper.readValue(result, WorldCupInfo.class);
-		
+
 		this.listStadiums = new ArrayList<>();
-		for(int i = 0; i< value.getStadiums().length;i++) {
+		for (int i = 0; i < value.getStadiums().length; i++) {
 			this.listStadiums.add(value.getStadiums()[i]);
 		}
 		getTeamsForGroups(value);
@@ -120,33 +123,41 @@ public class LoginController {
 	}
 
 	private void getTeamsForGroups(WorldCupInfo value) {
-		
+
+		SimpleDateFormat fdIni = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat fdFin = new SimpleDateFormat("dd/MM/yyyy");
+		Date date;
 		dealGroups(value.getGroups());
 		Teams[] teams = value.getTeams();
-		for(Grupo gr : value.getGroups().getListeGroup()){
-			for(int i = 0; i< gr.getMatches().length; i++) {
+		for (Grupo gr : value.getGroups().getListeGroup()) {
+			for (int i = 0; i < gr.getMatches().length; i++) {
 				int indexHome = Integer.valueOf(gr.getMatches()[i].getHome_team());
 				int indexAway = Integer.valueOf(gr.getMatches()[i].getAway_team());
 				gr.getMatches()[i].setHome_equipo(teams[indexHome]);
 				gr.getMatches()[i].setAway_equipo(teams[indexAway]);
+				try {
+					date = fdIni.parse(gr.getMatches()[i].getDate().substring(0, 10));
+					gr.getMatches()[i].setDate(fdFin.format(date));
+				} catch (ParseException e) {
+				}
 			}
 		}
 
-//		A groupA = value.getGroups().getA();
-//		Teams[] teams = value.getTeams();
-//		for(int i = 0; i< groupA.getMatches().length; i++) {
-//			int indexHome = Integer.valueOf(groupA.getMatches()[i].getHome_team());
-//			int indexAway = Integer.valueOf(groupA.getMatches()[i].getAway_team());
-//			groupA.getMatches()[i].setHome_equipo(teams[indexHome]);
-//			groupA.getMatches()[i].setAway_equipo(teams[indexAway]);
-//		}
+		// A groupA = value.getGroups().getA();
+		// Teams[] teams = value.getTeams();
+		// for(int i = 0; i< groupA.getMatches().length; i++) {
+		// int indexHome = Integer.valueOf(groupA.getMatches()[i].getHome_team());
+		// int indexAway = Integer.valueOf(groupA.getMatches()[i].getAway_team());
+		// groupA.getMatches()[i].setHome_equipo(teams[indexHome]);
+		// groupA.getMatches()[i].setAway_equipo(teams[indexAway]);
+		// }
 
 	}
 
 	private void dealGroups(Groups groups) {
-		
+
 		List<Grupo> listGroup = new ArrayList<Grupo>();
-//		
+		//
 		A groupA = groups.getA();
 		Grupo gA = new Grupo();
 		gA.setMatches(groupA.getMatches());
@@ -154,7 +165,7 @@ public class LoginController {
 		gA.setRunnerup(groupA.getRunnerup());
 		gA.setWinner(groupA.getWinner());
 		listGroup.add(gA);
-		
+
 		B groupB = groups.getB();
 		Grupo gB = new Grupo();
 		gB.setMatches(groupB.getMatches());
@@ -162,7 +173,7 @@ public class LoginController {
 		gB.setRunnerup(groupB.getRunnerup());
 		gB.setWinner(groupB.getWinner());
 		listGroup.add(gB);
-		
+
 		C groupC = groups.getC();
 		Grupo gC = new Grupo();
 		gC.setMatches(groupC.getMatches());
@@ -170,7 +181,7 @@ public class LoginController {
 		gC.setRunnerup(groupC.getRunnerup());
 		gC.setWinner(groupC.getWinner());
 		listGroup.add(gC);
-		
+
 		D groupD = groups.getD();
 		Grupo gD = new Grupo();
 		gD.setMatches(groupD.getMatches());
@@ -178,7 +189,7 @@ public class LoginController {
 		gD.setRunnerup(groupD.getRunnerup());
 		gD.setWinner(groupD.getWinner());
 		listGroup.add(gD);
-		
+
 		E groupE = groups.getE();
 		Grupo gE = new Grupo();
 		gE.setMatches(groupE.getMatches());
@@ -186,7 +197,7 @@ public class LoginController {
 		gE.setRunnerup(groupE.getRunnerup());
 		gE.setWinner(groupE.getWinner());
 		listGroup.add(gE);
-		
+
 		F groupF = groups.getF();
 		Grupo gF = new Grupo();
 		gF.setMatches(groupF.getMatches());
@@ -194,8 +205,7 @@ public class LoginController {
 		gF.setRunnerup(groupF.getRunnerup());
 		gF.setWinner(groupF.getWinner());
 		listGroup.add(gF);
-		
-		
+
 		G groupG = groups.getG();
 		Grupo gG = new Grupo();
 		gG.setMatches(groupG.getMatches());
@@ -203,7 +213,7 @@ public class LoginController {
 		gG.setRunnerup(groupG.getRunnerup());
 		gG.setWinner(groupG.getWinner());
 		listGroup.add(gG);
-		
+
 		H groupH = groups.getH();
 		Grupo gH = new Grupo();
 		gH.setMatches(groupG.getMatches());
@@ -211,18 +221,15 @@ public class LoginController {
 		gH.setRunnerup(groupH.getRunnerup());
 		gH.setWinner(groupH.getWinner());
 		listGroup.add(gH);
-		
-		
-		
+
 		groups.setListeGroup(listGroup);
-		
+
 	}
 
-	
 	@RequestMapping(value = "/staduims", method = RequestMethod.GET)
 	public ModelAndView staduims() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("userName",user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
+		modelAndView.addObject("userName", user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
 		modelAndView.addObject("stadiums", this.listStadiums);
 		modelAndView.setViewName("stadiums");
 		return modelAndView;
