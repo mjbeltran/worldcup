@@ -133,8 +133,8 @@ public class LoginController {
 			for (int i = 0; i < gr.getMatches().length; i++) {
 				int indexHome = Integer.valueOf(gr.getMatches()[i].getHome_team());
 				int indexAway = Integer.valueOf(gr.getMatches()[i].getAway_team());
-				gr.getMatches()[i].setHome_equipo(teams[indexHome]);
-				gr.getMatches()[i].setAway_equipo(teams[indexAway]);
+				gr.getMatches()[i].setHome_equipo(teams[indexHome-1]);
+				gr.getMatches()[i].setAway_equipo(teams[indexAway-1]);
 				try {
 					date = fdIni.parse(gr.getMatches()[i].getDate().substring(0, 10));
 					gr.getMatches()[i].setDate(fdFin.format(date));
@@ -161,7 +161,7 @@ public class LoginController {
 		A groupA = groups.getA();
 		Grupo gA = new Grupo();
 		gA.setMatches(groupA.getMatches());
-		gA.setNameGroup("Grupo A");
+		gA.setNameGroup("GrupoA");
 		gA.setRunnerup(groupA.getRunnerup());
 		gA.setWinner(groupA.getWinner());
 		listGroup.add(gA);
@@ -169,7 +169,7 @@ public class LoginController {
 		B groupB = groups.getB();
 		Grupo gB = new Grupo();
 		gB.setMatches(groupB.getMatches());
-		gB.setNameGroup("Grupo B");
+		gB.setNameGroup("GrupoB");
 		gB.setRunnerup(groupB.getRunnerup());
 		gB.setWinner(groupB.getWinner());
 		listGroup.add(gB);
@@ -177,7 +177,7 @@ public class LoginController {
 		C groupC = groups.getC();
 		Grupo gC = new Grupo();
 		gC.setMatches(groupC.getMatches());
-		gC.setNameGroup("Grupo C");
+		gC.setNameGroup("GrupoC");
 		gC.setRunnerup(groupC.getRunnerup());
 		gC.setWinner(groupC.getWinner());
 		listGroup.add(gC);
@@ -185,7 +185,7 @@ public class LoginController {
 		D groupD = groups.getD();
 		Grupo gD = new Grupo();
 		gD.setMatches(groupD.getMatches());
-		gD.setNameGroup("Grupo D");
+		gD.setNameGroup("GrupoD");
 		gD.setRunnerup(groupD.getRunnerup());
 		gD.setWinner(groupD.getWinner());
 		listGroup.add(gD);
@@ -193,7 +193,7 @@ public class LoginController {
 		E groupE = groups.getE();
 		Grupo gE = new Grupo();
 		gE.setMatches(groupE.getMatches());
-		gE.setNameGroup("Grupo E");
+		gE.setNameGroup("GrupoE");
 		gE.setRunnerup(groupE.getRunnerup());
 		gE.setWinner(groupE.getWinner());
 		listGroup.add(gE);
@@ -201,7 +201,7 @@ public class LoginController {
 		F groupF = groups.getF();
 		Grupo gF = new Grupo();
 		gF.setMatches(groupF.getMatches());
-		gF.setNameGroup("Grupo F");
+		gF.setNameGroup("GrupoF");
 		gF.setRunnerup(groupF.getRunnerup());
 		gF.setWinner(groupF.getWinner());
 		listGroup.add(gF);
@@ -209,15 +209,15 @@ public class LoginController {
 		G groupG = groups.getG();
 		Grupo gG = new Grupo();
 		gG.setMatches(groupG.getMatches());
-		gG.setNameGroup("Grupo G");
+		gG.setNameGroup("GrupoG");
 		gG.setRunnerup(groupG.getRunnerup());
 		gG.setWinner(groupG.getWinner());
 		listGroup.add(gG);
 
 		H groupH = groups.getH();
 		Grupo gH = new Grupo();
-		gH.setMatches(groupG.getMatches());
-		gH.setNameGroup("Grupo H");
+		gH.setMatches(groupH.getMatches());
+		gH.setNameGroup("GrupoH");
 		gH.setRunnerup(groupH.getRunnerup());
 		gH.setWinner(groupH.getWinner());
 		listGroup.add(gH);
