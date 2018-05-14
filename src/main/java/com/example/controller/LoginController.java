@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.model.Match;
+import com.example.model.Team;
 import com.example.model.Users;
 import com.example.model.worldcupinfo.A;
 import com.example.model.worldcupinfo.B;
@@ -33,6 +35,8 @@ import com.example.model.worldcupinfo.H;
 import com.example.model.worldcupinfo.Stadiums;
 import com.example.model.worldcupinfo.Teams;
 import com.example.model.worldcupinfo.WorldCupInfo;
+import com.example.service.MatchService;
+import com.example.service.TeamService;
 import com.example.service.UserService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -44,6 +48,12 @@ public class LoginController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private TeamService teamService;
+
+	@Autowired
+	private MatchService matchService;
 
 	private List<Stadiums> listStadiums;
 
@@ -118,7 +128,44 @@ public class LoginController {
 			this.listStadiums.add(value.getStadiums()[i]);
 		}
 		getTeamsForGroups(value);
+		insertTeamsBd(value);
 		return value.getGroups();
+
+	}
+
+	private void insertTeamsBd(WorldCupInfo value) {
+
+		Teams[] teams = value.getTeams();
+		String nameTeam1 = teams[0].getName();
+		Team team;
+		if (teamService.findUserByName(nameTeam1) == null) {
+			for (int i = 0; i < teams.length; i++) {
+				team = new Team();
+				team.setFlag(teams[i].getFlag());
+				team.setName(teams[i].getName());
+				team.setEmoji(teams[i].getEmoji());
+				team.setIso2(teams[i].getIso2());
+				teamService.saveTeam(team);
+			}
+		}
+
+		if (matchService.findByStadium("1").isEmpty()) {
+			Match match;
+			Team homeTeam;
+			Team awayTeam;
+			for (Grupo gr : value.getGroups().getListeGroup()) {
+				for (int i = 0; i < gr.getMatches().length; i++) {
+					match = new Match();
+					homeTeam = teamService.findUserByName(gr.getMatches()[i].getHome_equipo().getName());
+					awayTeam = teamService.findUserByName(gr.getMatches()[i].getAway_equipo().getName());
+					match.setHomeTeam(homeTeam);
+					match.setAwayTeam(awayTeam);
+					match.setDate(new Date(gr.getMatches()[i].getDate()));
+					match.setStadium(gr.getMatches()[i].getStadium());
+					matchService.saveMatch(match);
+				}
+			}
+		}
 
 	}
 
@@ -133,8 +180,8 @@ public class LoginController {
 			for (int i = 0; i < gr.getMatches().length; i++) {
 				int indexHome = Integer.valueOf(gr.getMatches()[i].getHome_team());
 				int indexAway = Integer.valueOf(gr.getMatches()[i].getAway_team());
-				gr.getMatches()[i].setHome_equipo(teams[indexHome-1]);
-				gr.getMatches()[i].setAway_equipo(teams[indexAway-1]);
+				gr.getMatches()[i].setHome_equipo(teams[indexHome - 1]);
+				gr.getMatches()[i].setAway_equipo(teams[indexAway - 1]);
 				try {
 					date = fdIni.parse(gr.getMatches()[i].getDate().substring(0, 10));
 					gr.getMatches()[i].setDate(fdFin.format(date));

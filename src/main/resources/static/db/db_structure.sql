@@ -78,3 +78,34 @@ CREATE TABLE  user_role  (
 
 
 
+CREATE TABLE Team
+(
+    team_id integer NOT NULL DEFAULT nextval('team_id_seq'::regclass),
+    flag character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    emoji character varying(255),
+    iso2 character varying(255),
+    CONSTRAINT team_pkey PRIMARY KEY (team_id)
+);
+
+CREATE SEQUENCE team_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;
+    
+    CREATE TABLE match
+(
+    match_id integer NOT NULL DEFAULT nextval('match_id_seq'::regclass),
+    home_team_id integer NOT NULL,
+    away_team_id integer NOT NULL,
+    stadium character varying(255) NOT NULL,
+    date date NOT NULL,
+    result character varying(20),
+    CONSTRAINT match_pkey PRIMARY KEY (match_id),
+   CONSTRAINT fk_home_team FOREIGN KEY (home_team_id)
+        REFERENCES team (team_id) MATCH SIMPLE,
+    CONSTRAINT fk_away_team FOREIGN KEY (away_team_id)
+        REFERENCES team (team_id) MATCH SIMPLE
+)

@@ -38,12 +38,12 @@
 <div class="container">
     <ul class="nav nav-tabs" >
         <li class="nav-item" th:each="group, barStat: ${groups}">
-            <a class="nav-link" th:classappend="${#strings.contains(group.nameGroup,'GrupoA')} ? 'active'" th:href="@{'#'+ ${group.nameGroup}}" data-toggle="tab" ><label th:text="${group.nameGroup}"></label></a>
+            <a class="nav-link  fade in" th:classappend="${group.nameGroup =='GrupoA'} ? 'active'" th:href="@{'#'+ ${group.nameGroup}}" data-toggle="tab" ><label th:text="${group.nameGroup}"></label></a>
         </li>
     </ul>
 
     <div class="tab-content" >
-        <div class="tab-pane fade" th:classappend="${#strings.contains(group.nameGroup,'GrupoA')} ? 'active'" th:id="${group.nameGroup}" th:each="group, barStat: ${groups}">
+        <div class="tab-pane fade in" th:classappend="${group.nameGroup =='GrupoA'} ? 'active'" th:id="${group.nameGroup}" th:each="group, barStat: ${groups}">
              <div class="panel-group">
 						<div class="panel panel-primary"> 
 							<div class="table-responsive">  
