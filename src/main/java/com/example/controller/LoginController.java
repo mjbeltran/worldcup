@@ -6,21 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
 
-import org.jsoup.Jsoup;
-import org.jsoup.Connection.Response;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -71,179 +59,12 @@ public class LoginController {
 	private List<Stadiums> listStadiums;
 
 	private Users user;
-	
-	public static final String URL_HABITACLIA = "https://www.habitaclia.com/viviendas-ascensor-viladecans.htm?hab=3&m2=70&ordenar=mas_recientes&pmax=210000";
-	public static final String URL_IDEALISTA = "https://www.idealista.com/venta-viviendas/barcelona-barcelona/con-precio-hasta_220000,metros-cuadrados-mas-de_60,de-tres-dormitorios,de-cuatro-cinco-habitaciones-o-mas,ascensor/";
-	public static final String URL_FOTOCASA = "https://www.fotocasa.es/es/comprar/pisos/viladecans/todas-las-zonas/l?sortType=publicationDate&latitude=41.3185&longitude=2.01945&maxPrice=225000&minRooms=3&minSurface=80&combinedLocationIds=724,9,8,233,381,8301,0,0,0";
-
 
 	@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
 	public ModelAndView login() {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("login");
-		executeScrapingWeb();
 		return modelAndView;
-	}
-
-	private void executeScrapingWeb() {
-
-		final String username = "tran67@hotmail.com";
-		final String password = "hotmail1234";
-
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.live.com");
-		props.put("mail.smtp.port", "25");
-
-		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-			protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-				return new javax.mail.PasswordAuthentication(username, password);
-			}
-		});
-
-
-		String bodyMessage = dataHabitaclia(URL_HABITACLIA);
-
-		bodyMessage = "HABITACLIA\n\n" + bodyMessage + "FOTOCASA\n\n" + dataFotocasa(URL_FOTOCASA);
-
-		try {
-
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("tran67@hotmail.com"));
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("mjbeltrangarcia@gmail.com,carlotalv80@gmail.com"));
-			message.setSubject("Testing WallaFlat");
-			message.setText("Dear Carlota," + "\n\n No spam to my email, please!");
-			message.setContent(bodyMessage, "text/html");
-
-			Transport.send(message);
-
-			System.out.println("Done");
-
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}
-
-	}
-
-	private static String dataFotocasa(String urlFotocasa) {
-		String bodyMessage = "";
-
-		// Compruebo si me da un 200 al hacer la petición
-		if (getStatusConnectionCode(urlFotocasa) == 200) {
-
-			Document document = getHtmlDocument(urlFotocasa);
-
-			Elements entradas = document.select("div.re-Searchresult-itemRow");
-			int i = 0;
-
-			// Paseo cada una de las entradas
-			for (Element elem : entradas) {
-				String titulo = elem.select("a.re-Card-link").text();
-				Elements ele = elem.select("a.re-Card-link");
-				String caracteristicas = elem.getElementsByClass("re-Card-priceContainer re-Card-price--featured")
-						.toString();
-
-				System.out.println(entradas.get(i) + "               " + titulo + "");
-				System.out.println("<TABLE border ='1'><TR><TD>" + entradas.get(i) + "</TD><TD>" + "" + "</TD><tr><td>"
-						+ titulo + "</td></tr></table>");
-				if (!ele.isEmpty()) {
-					System.out.println("<TABLE border ='1'><TR><TD>https://www.fotocasa.es/"
-							+ ele.get(0).attributes().get("href") + "</TD><tr></table>");
-					bodyMessage = bodyMessage + "<TABLE border ='1'>" + "<TR><TD>https://www.fotocasa.es/"
-							+ ele.get(0).attributes().get("href") + "</TD><tr>" + "<TR><TD>" + entradas.get(i)
-							+ "</TD><TD>" + "" + "</TD>" + "<tr><td>" + titulo + "</td></tr>" + "<tr><td>"
-							+ caracteristicas + "</td></tr>" + "</table>";
-				}
-				i++;
-				// Con el método "text()" obtengo el contenido que hay dentro de las etiquetas
-				// HTML
-				// Con el método "toString()" obtengo todo el HTML con etiquetas incluidas
-			}
-
-		} else
-			System.out.println("El Status Code no es OK es: " + getStatusConnectionCode(URL_HABITACLIA));
-		return bodyMessage;
-	}
-
-	private static String dataHabitaclia(String urlHabitaclia) {
-
-		String bodyMessage = "";
-
-		// Compruebo si me da un 200 al hacer la petición
-		if (getStatusConnectionCode(urlHabitaclia) == 200) {
-
-			Document document = getHtmlDocument(URL_HABITACLIA);
-
-			Elements entradas2 = document.select("div.list-item");
-			int i = 0;
-
-			// Paseo cada una de las entradas
-			for (Element elem : entradas2) {
-				String titulo = elem.getElementsByClass("list-item-title").text();
-				String caracteristicas = elem.getElementsByClass("list-item-feature").toString();
-
-				System.out.println(entradas2.get(i) + "               " + titulo + "");
-				System.out.println("<TABLE border ='1'><TR><TD>" + entradas2.get(i) + "</TD><TD>" + "" + "</TD><tr><td>"
-						+ titulo + "</td></tr></table>");
-				// System.out.println("<TABLE border
-				// ='1'><TR><TD>https://www.fotocasa.es/"+entradas.get(i).attributes().get("href")+"</TD><tr></table>");
-				bodyMessage = bodyMessage + "<TABLE border ='1'><TR><TD>" + entradas2.get(i) + "</TD><TD>" + ""
-						+ "</TD>" + "<tr><td>" + titulo + "</td></tr>" + "<tr><td>" + caracteristicas + "</td></tr>"
-						+ "</table>";
-				i++;
-				// Con el método "text()" obtengo el contenido que hay dentro de las etiquetas
-				// HTML
-				// Con el método "toString()" obtengo todo el HTML con etiquetas incluidas
-			}
-
-		} else
-			System.out.println("El Status Code no es OK es: " + getStatusConnectionCode(URL_HABITACLIA));
-		return bodyMessage;
-	}
-
-	/**
-	 * Con esta método compruebo el Status code de la respuesta que recibo al hacer
-	 * la petición EJM: 200 OK 300 Multiple Choices 301 Moved Permanently 305 Use
-	 * Proxy 400 Bad Request 403 Forbidden 404 Not Found 500 Internal Server Error
-	 * 502 Bad Gateway 503 Service Unavailable
-	 * 
-	 * @param url
-	 * @return Status Code
-	 */
-	public static int getStatusConnectionCode(String url) {
-
-		Response response = null;
-
-		try {
-			// response = Jsoup.connect(urlIdealista).get(); // URL shortened!
-			response = Jsoup.connect(url).userAgent(
-					"Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.110 Safari/537.36")
-					.timeout(100000000).ignoreHttpErrors(true).execute();
-		} catch (IOException ex) {
-			System.out.println("Excepción al obtener el Status Code: " + ex.getMessage());
-		}
-		return response.statusCode();
-	}
-
-	/**
-	 * Con este método devuelvo un objeto de la clase Document con el contenido del
-	 * HTML de la web que me permitirá parsearlo con los métodos de la librelia
-	 * JSoup
-	 * 
-	 * @param url
-	 * @return Documento con el HTML
-	 */
-	public static Document getHtmlDocument(String url) {
-
-		Document doc = null;
-		try {
-			doc = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(100000).get();
-		} catch (IOException ex) {
-			System.out.println("Excepción al obtener el HTML de la página" + ex.getMessage());
-		}
-		return doc;
 	}
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
