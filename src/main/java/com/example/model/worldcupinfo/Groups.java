@@ -1,10 +1,16 @@
 package com.example.model.worldcupinfo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Groups
+public class Groups implements Serializable
 {
-    private F f;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private F f;
 
     private G g;
 
