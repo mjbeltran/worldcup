@@ -1,8 +1,15 @@
 package com.example.model.worldcupinfo;
 
-public class Matches
+import java.io.Serializable;
+
+public class Matches implements Serializable
 {
-    private String home_result;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String home_result;
 
     private String away_team;
 

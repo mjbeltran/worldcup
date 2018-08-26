@@ -34,7 +34,7 @@
 		</div>
 		
 
-
+ <form  action="#" th:action="@{/saveMatchs}"  method="post" th:object="${partido}" role="form">
 <div class="container">
     <ul class="nav nav-tabs" >
         <li class="nav-item" th:each="group, barStat: ${groups}">
@@ -43,7 +43,7 @@
     </ul>
 
     <div class="tab-content" >
-        <div class="tab-pane fade in" th:classappend="${group.nameGroup =='GrupoA'} ? 'active'" th:id="${group.nameGroup}" th:each="group, barStat: ${groups}">
+        <div class="tab-pane fade in" th:classappend="${group.nameGroup =='Grupo-A'} ? 'active'" th:id="${group.nameGroup}" th:each="group, barStat: ${groups}">
              <div class="panel-group">
 						<div class="panel panel-primary"> 
 							<div class="table-responsive">  
@@ -51,8 +51,9 @@
 						 			 <tr th:each="match : ${group.matches}">
 						    			<td  th:text="${match.home_equipo.name}" align="left"></td>
 						    			<td><img th:src="${match.home_equipo.flag}" style="width:20px;height:20px"/></td>
-						    			<td><input type="text" maxlength="2" style="width:20px;height:20px"/></td>
-						    			<td><input type="text" maxlength="2"  style="width:20px;height:20px"/></td>
+						    			<td><input type="text" maxlength="2" style="width:20px;height:20px" th:field="${partido.home_result}"/></td>
+						    			<td><input type="text" maxlength="2" style="width:20px;height:20px" th:field="${partido.away_result}"/></td>
+						    			    <input type="hidden" name="partidoId" th:field="*{id}" />
 						    			<td><img th:src="${match.away_equipo.flag}" style="width:20px;height:20px"/></td>
 						     			<td th:text="${match.away_equipo.name}" align="left"></td>
 						     			 <td th:text="${match.date}" align="left"></td>
@@ -64,6 +65,10 @@
 			 			</div>
         </div>
     </div> 
+   <!--  <form  action="#" th:action="@{/saveMatchs}"  method="post" th:object="${groups}" role="form"> -->
+           <input type="hidden" name="partidoId" th:field="*{id}" />
+      <button class="btn btn-md btn-warning " type="Submit">Guardar</button>
+      </form>
 </div>
 
     </div>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 
@@ -24,13 +24,17 @@
 						 			 <tr th:each="match : ${group.matches}">
 						    			<td  th:text="${match.home_equipo.name}" align="left"></td>
 						    			<td><img th:src="${match.home_equipo.flag}" style="width:20px;height:20px"/></td>
-						    			<td><input type="text" maxlength="2" style="width:20px;height:20px"/></td>
-						    			<td><input type="text" maxlength="2"  style="width:20px;height:20px"/></td>
+						    			<td><input type="text" maxlength="2" style="width:20px;height:20px" th:value="${match.home_result}"/></td>
+						    			<td><input type="text" maxlength="2" style="width:20px;height:20px" th:value="${match.away_result}"/></td>
 						    			<td><img th:src="${match.away_equipo.flag}" style="width:20px;height:20px"/></td>
 						     			<td th:text="${match.away_equipo.name}" align="left"></td>
 						     			 <td th:text="${match.date}" align="left"></td>
-    
 						  			</tr>
+						  			 <tr class="">
+        <form th:action="@{/admin/user/update}" method="post" th:object="${groups}">
+          <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        </form>
+    </tr>
 						 		 </table>
 						 	</div>
 							</div>
@@ -41,4 +45,4 @@
  
     </div>
 </body>
-</html>
+</html> -->

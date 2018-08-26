@@ -32,9 +32,15 @@ public class Match {
 	private String stadium;
 	@Column(name="date")
 	private Date date;
-	@Column(name="result")
-	private String result;
 	
+	@Column(name="home_result")
+	private int home_result;
+	
+	@Column(name="away_result")
+	private int away_result;
+	
+	@Column(name="groupo")
+	private String groupo;
 	
 	public int getId() {
 		return id;
@@ -66,11 +72,24 @@ public class Match {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public String getResult() {
-		return result;
+	public int getHome_result() {
+		return home_result;
 	}
-	public void setResult(String result) {
-		this.result = result;
+	public void setHome_result(int home_result) {
+		this.home_result = home_result;
+	}
+	public int getAway_result() {
+		return away_result;
+	}
+	public void setAway_result(int away_result) {
+		this.away_result = away_result;
+	}
+
+	public String getGroupo() {
+		return groupo;
+	}
+	public void setGroupo(String groupo) {
+		this.groupo = groupo;
 	}
 	
 }

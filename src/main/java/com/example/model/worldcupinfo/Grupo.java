@@ -1,6 +1,13 @@
 package com.example.model.worldcupinfo;
 
-public class Grupo {
+import java.io.Serializable;
+
+public class Grupo implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3693025287335257193L;
 
 	private Matches[] matches;
 
