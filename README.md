@@ -1,3 +1,5 @@
-# WorlCup proyect
+# WorlCup project
 
-Test with SpringMVC, SpringSecurity,services REST fo
+Test with SpringMVC, SpringSecurity,services REST. 
+
+TO-DO
