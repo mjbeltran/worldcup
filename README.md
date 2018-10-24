@@ -1,6 +1,3 @@
-# SpringSecurity
+# WorlCup proyect
 
-1. mvn clean
-2. mvn clean install
-3. Go to the target folder
-4. java -jar demo-0.0.1-SNAPSHOT.ja
+Test with SpringMVC, SpringSecurity,services REST fo
